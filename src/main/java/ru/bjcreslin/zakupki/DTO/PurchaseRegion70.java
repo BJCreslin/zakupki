@@ -4,12 +4,16 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 
+/**
+ * Объекты этого класса получаются со страницы https://region70.rts-tender.ru/ с помощью Region70UrlController
+ *
+ */
 @Data
 public class PurchaseRegion70 {
     //Полное наименование
     private String customerName;
     //ИНН
-    private Integer inn;
+    private Long inn;
     //Адрес места нахождения
     private String adress;
     //Наименование
