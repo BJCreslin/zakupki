@@ -15,6 +15,8 @@ public class PurchaseRegion70 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
+    // Id на сайте
+    Long siteId;
     //Полное наименование
     private String customerName;
     //ИНН

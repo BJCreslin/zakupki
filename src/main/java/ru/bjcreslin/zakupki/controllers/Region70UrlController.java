@@ -142,11 +142,13 @@ public class Region70UrlController {
      *
      * @param region70URL - String url страницы парсинга
      * @return объект PurchaseRegion70
-     * @throws IOException
+     * @throws IOException выбрасывает исключение, в случае если не может обработать запрос.
      */
     public PurchaseRegion70 getPurchaseFromRegion70(String region70URL) throws IOException {
         Document document = Jsoup.connect(region70URL).get();
         PurchaseRegion70 purchaseRegion70 = new PurchaseRegion70();
+        purchaseRegion70.setSiteId(Long.parseUnsignedLong(region70URL.
+                replace("https://region70.rts-tender.ru/Trade/ViewTrade?id=", "")));
         for (Element element : document.getElementsByTag("label")) {
             String key = element.text();
             if (operatorForRecogniseRegion70FieldsMap.containsKey(key)) {
