@@ -3,6 +3,7 @@ package ru.bjcreslin.zakupki.controllers;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.springframework.stereotype.Service;
 import ru.bjcreslin.zakupki.DTO.PurchaseRegion70;
 
 import java.io.IOException;
@@ -10,7 +11,10 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
 
+@Service
 public class Region70UrlController {
+    private HashMap<String, BiConsumer<PurchaseRegion70, Element>> operatorForRecogniseRegion70FieldsMap;
+
     public Region70UrlController() {
         operatorForRecogniseRegion70FieldsMap = new HashMap<>();
         operatorForRecogniseRegion70FieldsMap.put("Полное наименование", this::setFullCustomerName);
@@ -133,8 +137,13 @@ public class Region70UrlController {
     }
 
 
-    HashMap<String, BiConsumer<PurchaseRegion70, Element>> operatorForRecogniseRegion70FieldsMap;
-
+    /**
+     * С помощью диспатчера, построенного на мапе парсит объект
+     *
+     * @param region70URL - String url страницы парсинга
+     * @return объект PurchaseRegion70
+     * @throws IOException
+     */
     public PurchaseRegion70 getPurchaseFromRegion70(String region70URL) throws IOException {
         Document document = Jsoup.connect(region70URL).get();
         PurchaseRegion70 purchaseRegion70 = new PurchaseRegion70();

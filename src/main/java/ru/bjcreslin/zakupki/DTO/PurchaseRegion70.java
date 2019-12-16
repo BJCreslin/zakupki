@@ -2,14 +2,19 @@ package ru.bjcreslin.zakupki.DTO;
 
 import lombok.Data;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 /**
  * Объекты этого класса получаются со страницы https://region70.rts-tender.ru/ с помощью Region70UrlController
- *
  */
+@Entity(name = "region70_purchase")
+@Table
 @Data
 public class PurchaseRegion70 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    Long id;
     //Полное наименование
     private String customerName;
     //ИНН

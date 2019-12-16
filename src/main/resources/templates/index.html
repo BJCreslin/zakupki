@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}"
+          href="../../css/main.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <div th:replace="fragments/header :: header-css"></div>
+</head>
+<body>
+<div class="MainText">
+<h1>Ввод закупок по одному адресу</h1>
+<form action="addurl" method="POST">
+    Input address:
+    <label>
+        <input type="text" name="url">
+    </label>
+    <input type="submit" value="Create" class="btn-light">
+</form>
+
+
+<div th:replace="fragments/footer :: footer"/>
+
+</div>
+</body>
+</html>

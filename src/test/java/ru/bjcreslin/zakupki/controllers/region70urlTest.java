@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 
 class region70urlTest {
-    private String urlTestRegion701 = "https://region70.rts-tender.ru/Trade/ViewTrade?id=1290191";
+    private String urlTestRegion701 = "https://region70.rts-tender.ru/Trade/ViewTrade?id=1295698";
 
     private Region70UrlController region70UrlController;
 
