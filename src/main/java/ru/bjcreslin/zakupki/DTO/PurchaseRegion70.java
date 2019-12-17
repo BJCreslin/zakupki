@@ -16,6 +16,7 @@ public class PurchaseRegion70 {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
     // Id на сайте
+    @Column(unique = true)
     Long siteId;
     //Полное наименование
     private String customerName;

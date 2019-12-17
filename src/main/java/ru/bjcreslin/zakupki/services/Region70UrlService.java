@@ -1,4 +1,4 @@
-package ru.bjcreslin.zakupki.controllers;
+package ru.bjcreslin.zakupki.services;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,10 +12,10 @@ import java.util.HashMap;
 import java.util.function.BiConsumer;
 
 @Service
-public class Region70UrlController {
+public class Region70UrlService {
     private HashMap<String, BiConsumer<PurchaseRegion70, Element>> operatorForRecogniseRegion70FieldsMap;
 
-    public Region70UrlController() {
+    public Region70UrlService() {
         operatorForRecogniseRegion70FieldsMap = new HashMap<>();
         operatorForRecogniseRegion70FieldsMap.put("Полное наименование", this::setFullCustomerName);
         operatorForRecogniseRegion70FieldsMap.put("ИНН", this::setInn);
