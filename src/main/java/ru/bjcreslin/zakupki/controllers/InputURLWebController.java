@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.bjcreslin.zakupki.DTO.PurchaseRegion70;
 import ru.bjcreslin.zakupki.repositories.PurchaseRegion70Repo;
+import ru.bjcreslin.zakupki.services.Purchaseregion70ToDBaseService;
 import ru.bjcreslin.zakupki.services.Region70UrlService;
 
 import java.io.IOException;
@@ -19,10 +20,13 @@ public class InputURLWebController {
     Region70UrlService region70UrlService;
     final
     PurchaseRegion70Repo purchaseRegion70repo;
+    final
+    Purchaseregion70ToDBaseService purchaseregion70ToDBaseService;
 
-    public InputURLWebController(Region70UrlService region70UrlService, PurchaseRegion70Repo purchaseRegion70repo) {
+    public InputURLWebController(Region70UrlService region70UrlService, PurchaseRegion70Repo purchaseRegion70repo, Purchaseregion70ToDBaseService purchaseregion70ToDBaseService) {
         this.region70UrlService = region70UrlService;
         this.purchaseRegion70repo = purchaseRegion70repo;
+        this.purchaseregion70ToDBaseService = purchaseregion70ToDBaseService;
     }
 
     @GetMapping("")
@@ -39,7 +43,7 @@ public class InputURLWebController {
             try {
                 PurchaseRegion70 purchaseRegion70 = region70UrlService.getPurchaseFromRegion70(nameURL);
                 log.info(purchaseRegion70.toString());
-                purchaseRegion70repo.saveAndFlush(purchaseRegion70);
+                purchaseregion70ToDBaseService.save(purchaseRegion70);
 
             } catch (IOException e) {
                 log.severe("Невозможно распознать " + nameURL);

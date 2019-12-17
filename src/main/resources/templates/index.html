@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" th:href="@{/css/main.css}"
-          href="../../css/main.css"/>
+      />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
@@ -16,7 +16,7 @@
 <form action="addurl" method="POST">
     Input address:
     <label>
-        <input type="text" name="url">
+        <input type="text" class="text input-group-lg" name="url" placeholder="Введите адрес">
     </label>
     <input type="submit" value="Create" class="btn-light">
 </form>

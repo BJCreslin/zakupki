@@ -4,3 +4,6 @@
     color: #0c5460;
     background-color: #6c757d;
 }
+input[type=text]{
+    width:500px;
+}

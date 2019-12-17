@@ -12,39 +12,52 @@ import java.math.BigDecimal;
 @Table
 @Data
 public class PurchaseRegion70 {
+//
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    Long id;
+//    // Id на сайте
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
-    // Id на сайте
-    @Column(unique = true)
+//    @Column(unique = true)
     Long siteId;
     //Полное наименование
+    @Column(columnDefinition="text")
     private String customerName;
     //ИНН
     private Long inn;
     //Адрес места нахождения
+    @Column(columnDefinition="text")
     private String adress;
     //Наименование
+    @Column(columnDefinition="text")
     private String purchaseName;
     //Статус
+    @Column(columnDefinition="text")
     private String Status;
-    //Статус
+    //НМЦК, руб.
     private BigDecimal purchaseCost;
     //ФИО контактного лица
+    @Column(columnDefinition="text")
     private String contactPerson;
     //Контактный телефон
+    @Column(columnDefinition="text")
     private String contactPhone;
     //Сроки поставки
+    @Column(columnDefinition="text")
     private String deliveryDate;
     //Место поставки
+    @Column(columnDefinition="text")
     private String deliveryPlace;
     //Условия оплаты
+    @Column(columnDefinition="text")
     private String termsOfPayment;
     //Описание
+    @Column(columnDefinition="text")
     private String description;
     //Дата окончания подачи предложений
+    @Column(columnDefinition="text")
     private String filingDate;
     //Плановая дата заключения контракта
+    @Column(columnDefinition="text")
     private String contractDate;
 
 }
