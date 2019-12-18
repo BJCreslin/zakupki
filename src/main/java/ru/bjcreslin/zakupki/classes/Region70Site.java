@@ -9,6 +9,10 @@ public class Region70Site {
     //Адрес сайта
     private static String url = "https://region70.rts-tender.ru";
 
+    //Адрес сайта для запросов
+    private static String requestUrl = "https://zmo-new-webapi.rts-tender.ru/api/Trade/GetTradesForParticipantOrAnonymous";
+
+
     public static String getUrl() {
         return url;
     }
