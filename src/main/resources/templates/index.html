@@ -21,10 +21,16 @@
         </label>
         <input type="submit" value="Create" class="btn-light">
     </form>
+    <br>
+    <h1>
+        Отправка одного запроса
+    </h1>
+    <form action="testerone" method="get">
+    <input type="submit" class="btn-outline-primary" value="Запрос">
+    </form>
 
-
-    <div th:replace="fragments/footer :: footer"/>
 
 </div>
+<div th:replace="fragments/footer :: footer"/>
 </body>
 </html>

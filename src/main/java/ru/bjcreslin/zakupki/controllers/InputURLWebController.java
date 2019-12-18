@@ -1,12 +1,18 @@
 package ru.bjcreslin.zakupki.controllers;
 
 import lombok.extern.java.Log;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 import ru.bjcreslin.zakupki.DTO.PurchaseRegion70;
+import ru.bjcreslin.zakupki.DTO.RequestRegion70;
+import ru.bjcreslin.zakupki.classes.Region70Site;
 import ru.bjcreslin.zakupki.repositories.PurchaseRegion70Repo;
 import ru.bjcreslin.zakupki.services.Purchaseregion70ToDBaseService;
 import ru.bjcreslin.zakupki.services.Region70UrlService;
@@ -51,7 +57,19 @@ public class InputURLWebController {
 
         }
         return "index";
+    }
 
-
+    @GetMapping("/testerone")
+    String testerOne(Model model) {
+//
+        String requ = "";
+        RequestRegion70 requestRegion70 = new RequestRegion70();
+        final RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<RequestRegion70> httpEntity=new HttpEntity<>(requestRegion70,headers);
+        requ=restTemplate.postForObject(Region70Site.getRequestUrl(), httpEntity, String.class);
+        log.info(requ);
+        return "index";
     }
 }
