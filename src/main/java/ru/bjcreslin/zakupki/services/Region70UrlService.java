@@ -5,6 +5,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Service;
 import ru.bjcreslin.zakupki.DTO.PurchaseRegion70;
+import ru.bjcreslin.zakupki.classes.Region70Site;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -148,7 +149,7 @@ public class Region70UrlService {
         Document document = Jsoup.connect(region70URL).get();
         PurchaseRegion70 purchaseRegion70 = new PurchaseRegion70();
         purchaseRegion70.setSiteId(Long.parseUnsignedLong(region70URL.
-                replace("https://region70.rts-tender.ru/Trade/ViewTrade?id=", "")));
+                replace(Region70Site.getUrl()+Region70Site.getPartOfWebAddress(), "")));
         for (Element element : document.getElementsByTag("label")) {
             String key = element.text();
             if (operatorForRecogniseRegion70FieldsMap.containsKey(key)) {

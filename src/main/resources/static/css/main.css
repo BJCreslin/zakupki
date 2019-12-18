@@ -4,6 +4,20 @@
     color: #0c5460;
     background-color: #6c757d;
 }
-input[type=text]{
-    width:500px;
+
+input[type=text] {
+    width: 500px;
 }
+
+.footer-copyright {
+    height: 40px;
+    margin-top: 200px;
+    outline: 1px solid #00FF00;
+    background-color: #818181;
+    /*Прижимаем футер книзу страницы окна браузера*/
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+}
+
