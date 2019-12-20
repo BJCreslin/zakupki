@@ -1,5 +1,6 @@
 package ru.bjcreslin.zakupki.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.java.Log;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.bjcreslin.zakupki.DTO.PurchaseRegion70;
+import ru.bjcreslin.zakupki.classes.DataJSONFromServer;
 import ru.bjcreslin.zakupki.classes.Region70Site;
 import ru.bjcreslin.zakupki.repositories.PurchaseRegion70Repo;
 import ru.bjcreslin.zakupki.services.Purchaseregion70ToDBaseService;
@@ -93,7 +95,7 @@ public class InputURLWebController {
         httpPost.setHeader("Accept", "*/*");
         httpPost.setHeader("Connection", "keep-alive");
         httpPost.setHeader("Referer", "https://region70.rts-tender.ru/");
-        HttpEntity httpEntity = new StringEntity("{\"page\":2,\"itemsPerPage\":10,\"tradeState\":\"\",\"OnlyTradesWithMyApplications\"" +
+        HttpEntity httpEntity = new StringEntity("{\"page\":1,\"itemsPerPage\":10,\"tradeState\":\"\",\"OnlyTradesWithMyApplications\"" +
                 ":false,\"filterPriceMin\":\"\",\"filterPriceMax\":\"\",\"filterDateFrom\":null,\"filterDateTo\":null," +
                 "\"filterFillingApplicationEndDateFrom\":null,\"FilterFillingApplicationEndDateTo\":null,\"filterTradeEasuzNumber\":\"\"," +
                 "\"showOnlyOwnTrades\":true,\"IsImmediate\":false,\"UsedClassificatorType\":5,\"classificatorCodes\":[]," +
@@ -104,7 +106,18 @@ public class InputURLWebController {
             HttpResponse response = httpClient.execute(httpPost);
             log.info("code: " + response.getStatusLine().getStatusCode());
             log.info("Msg: " + response.getStatusLine().getReasonPhrase());
-            log.info(EntityUtils.toString(response.getEntity()));
+
+            String textFromResponse = EntityUtils.toString(response.getEntity());
+
+            //   log.info(EntityUtils.toString(response.getEntity()));
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            DataJSONFromServer dataJSONFromServer = objectMapper.readValue(textFromResponse, DataJSONFromServer.class);
+            System.out.println(dataJSONFromServer.toString());
+            for (int i = 0; i < dataJSONFromServer.invdata.size(); i++) {
+                System.out.println(dataJSONFromServer.invdata.get(i).toString());
+            }
+
 
         } catch (IOException e) {
             e.printStackTrace();
