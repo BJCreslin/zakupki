@@ -84,6 +84,26 @@ public class RequestRegion70 {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
+    public String getRequestJSON() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writerFor(this.getClass()).writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            return null;
+        }
+    }
+
+    public String getRequestJSON(int page) {
+        this.page = page;
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writerFor(this.getClass()).writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            return null;
+        }
+    }
+
+
     public RequestRegion70() {
         page = 1;
         itemsPerPage = 100;
@@ -108,30 +128,77 @@ public class RequestRegion70 {
         tradeSearchType = 50;
     }
 
+    public RequestRegion70(Integer page) {
+        this.page = page;
+        itemsPerPage = 100;
+        tradeState = "";
+        onlyTradesWithMyApplications = false;
+        filterPriceMin = "";
+        filterPriceMax = "";
+        filterDateFrom = null;
+        filterDateTo = null;
+        filterFillingApplicationEndDateFrom = null;
+        filterFillingApplicationEndDateTo = null;
+        filterTradeEasuzNumber = "";
+        showOnlyOwnTrades = true;
+        isImmediate = false;
+        usedClassificatorType = 5;
+        classificatorCodes = null;
+        customerFullNameOrInn = "";
+        customerAddress = "";
+        participantHasApplicationsOnTrade = "";
+        useCustomerInn = false;
+        useCustomerName = true;
+        tradeSearchType = 50;
+    }
+
+    public RequestRegion70(Integer page, Integer itemsPerPage) {
+        this.page = page;
+        this.itemsPerPage = itemsPerPage;
+        tradeState = "";
+        onlyTradesWithMyApplications = false;
+        filterPriceMin = "";
+        filterPriceMax = "";
+        filterDateFrom = null;
+        filterDateTo = null;
+        filterFillingApplicationEndDateFrom = null;
+        filterFillingApplicationEndDateTo = null;
+        filterTradeEasuzNumber = "";
+        showOnlyOwnTrades = true;
+        isImmediate = false;
+        usedClassificatorType = 5;
+        classificatorCodes = null;
+        customerFullNameOrInn = "";
+        customerAddress = "";
+        participantHasApplicationsOnTrade = "";
+        useCustomerInn = false;
+        useCustomerName = true;
+        tradeSearchType = 50;
+    }
 
     /*
-    {"page":4,
-    "itemsPerPage":10,
-    "tradeState":"",
-    "OnlyTradesWithMyApplications":false,
-    "filterPriceMin":"",
-    "filterPriceMax":"",
-    "filterDateFrom":null,
-    "filterDateTo":null,
-    "filterFillingApplicationEndDateFrom":null,
-    "FilterFillingApplicationEndDateTo":null,
-    "filterTradeEasuzNumber":"",
-    "showOnlyOwnTrades":true,
-    "IsImmediate":false,
-    "UsedClassificatorType":5,
-    "classificatorCodes":[],
-    "CustomerFullNameOrInn":"",
-    "CustomerAddress":"",
-    "ParticipantHasApplicationsOnTrade":"",
-    "UseCustomerInn":false,
-    "UseCustomerName":true,
-    "TradeSearchType":50}
-     */
+            {"page":4,
+            "itemsPerPage":10,
+            "tradeState":"",
+            "OnlyTradesWithMyApplications":false,
+            "filterPriceMin":"",
+            "filterPriceMax":"",
+            "filterDateFrom":null,
+            "filterDateTo":null,
+            "filterFillingApplicationEndDateFrom":null,
+            "FilterFillingApplicationEndDateTo":null,
+            "filterTradeEasuzNumber":"",
+            "showOnlyOwnTrades":true,
+            "IsImmediate":false,
+            "UsedClassificatorType":5,
+            "classificatorCodes":[],
+            "CustomerFullNameOrInn":"",
+            "CustomerAddress":"",
+            "ParticipantHasApplicationsOnTrade":"",
+            "UseCustomerInn":false,
+            "UseCustomerName":true,
+            "TradeSearchType":50}
+             */
     public String getNewJson(int pageNumber) throws JsonProcessingException {
         this.page = pageNumber;
         ObjectMapper objectMapper = new ObjectMapper();
