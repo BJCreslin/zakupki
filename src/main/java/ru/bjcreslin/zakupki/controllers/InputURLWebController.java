@@ -21,9 +21,9 @@ import ru.bjcreslin.zakupki.services.Purchaseregion70ToDBaseService;
 import ru.bjcreslin.zakupki.services.Region70UrlService;
 
 import java.io.IOException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 
 
 @Log
@@ -64,20 +64,63 @@ public class InputURLWebController {
             } catch (IOException e) {
                 log.severe("Невозможно распознать " + nameURL);
             }
-
         }
         return "index";
     }
 
     @GetMapping("/testerone")
-    String testerone() throws UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException {
+    String testerone() {
         //Пока один сайт выставляем его жёстко
         siteWithDate = new Region70Site();
         HttpClient httpClient = siteWithDate.getHttpClient();
-
-
         HttpPost httpPost = siteWithDate.getHttpPost();
+        logRequest(httpPost);
+        try {
+            doResponse(httpClient, httpPost);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "index";
+    }
 
+    /**
+     * Выполнение запроса
+     *
+     * @param httpClient httpClient
+     * @param httpPost   httpPost
+     * @return Объект класса  DataJSONFromServer
+     * @throws IOException ---
+     */
+    private DataJSONFromServer doResponse(HttpClient httpClient, HttpPost httpPost) throws IOException {
+        HttpResponse response = httpClient.execute(httpPost);
+        String textFromResponse = EntityUtils.toString(response.getEntity());
+        ObjectMapper objectMapper = new ObjectMapper();
+        DataJSONFromServer dataJSONFromServer = objectMapper.readValue(textFromResponse, DataJSONFromServer.class);
+        logAnswer(response, dataJSONFromServer);
+        return dataJSONFromServer;
+    }
+
+    /**
+     * Логирование запроса
+     *
+     * @param response           HttpResponse
+     * @param dataJSONFromServer DataJSONFromServer
+     */
+    private void logAnswer(HttpResponse response, DataJSONFromServer dataJSONFromServer) {
+        for (int i = 0; i < dataJSONFromServer.invdata.size(); i++) {
+            log.info("Purchase " + dataJSONFromServer.invdata.get(i).toString());
+        }
+        for (Header header : response.getAllHeaders()) {
+            log.info("Header " + header.getName() + ": " + header.getValue());
+        }
+    }
+
+    /**
+     * Логирование ответа
+     *
+     * @param httpPost httpPost
+     */
+    private void logRequest(HttpPost httpPost) {
         for (Header header : httpPost.getAllHeaders()) {
             log.info("Header: " + header.getName() + ": " + header.getValue());
         }
@@ -86,24 +129,6 @@ public class InputURLWebController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        try {
-            HttpResponse response = httpClient.execute(httpPost);
-            String textFromResponse = EntityUtils.toString(response.getEntity());
-            ObjectMapper objectMapper = new ObjectMapper();
-            DataJSONFromServer dataJSONFromServer = objectMapper.readValue(textFromResponse, DataJSONFromServer.class);
-            for (int i = 0; i < dataJSONFromServer.invdata.size(); i++) {
-                System.out.println(dataJSONFromServer.invdata.get(i).toString());
-            }
-            for (Header header : response.getAllHeaders()) {
-                log.info("Header " + header.getName() + ": " + header.getValue());
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "index";
     }
-
 
 }
