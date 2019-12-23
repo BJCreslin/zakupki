@@ -107,11 +107,12 @@ public class InputURLWebController {
      * @param dataJSONFromServer DataJSONFromServer
      */
     private void logAnswer(HttpResponse response, DataJSONFromServer dataJSONFromServer) {
+        log.info("Всего данных на сервере: "+dataJSONFromServer.totalrecords+", всего на "+dataJSONFromServer.totalpages+ " страниц.");
         for (int i = 0; i < dataJSONFromServer.invdata.size(); i++) {
-            log.info("Purchase " + dataJSONFromServer.invdata.get(i).toString());
+            log.info("Answer Purchase " + dataJSONFromServer.invdata.get(i).toString());
         }
         for (Header header : response.getAllHeaders()) {
-            log.info("Header " + header.getName() + ": " + header.getValue());
+            log.info("Answer Header " + header.getName() + ": " + header.getValue());
         }
     }
 
@@ -122,10 +123,10 @@ public class InputURLWebController {
      */
     private void logRequest(HttpPost httpPost) {
         for (Header header : httpPost.getAllHeaders()) {
-            log.info("Header: " + header.getName() + ": " + header.getValue());
+            log.info("Request Header: " + header.getName() + ": " + header.getValue());
         }
         try {
-            log.info("Entity: " + EntityUtils.toString(httpPost.getEntity()));
+            log.info("Request Entity: " + EntityUtils.toString(httpPost.getEntity()));
         } catch (IOException e) {
             e.printStackTrace();
         }

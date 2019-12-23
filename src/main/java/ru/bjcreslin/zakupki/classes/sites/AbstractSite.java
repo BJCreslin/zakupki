@@ -23,8 +23,7 @@ public abstract class AbstractSite {
     HttpPost httpPost;
     //httpClient
     HttpClient httpClient;
-    //данные для зарпоса в теле запроса
-    HttpEntity httpEntity;
+
 
     public HttpPost getHttpPost() {
         httpPost.setEntity(getHttpEntity(1, 10));
@@ -34,15 +33,6 @@ public abstract class AbstractSite {
     public String getUrl() {
         return url;
     }
-
-    public String getPartOfWebAddress() {
-        return partOfWebAddress;
-    }
-
-    public String getRequestUrl() {
-        return requestUrl;
-    }
-
 
     public HttpClient getHttpClient() {
         return httpClient;
