@@ -1,29 +1,60 @@
 package ru.bjcreslin.zakupki.classes;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContexts;
+import ru.bjcreslin.zakupki.DTO.RequestRegion70;
+
+import javax.net.ssl.SSLContext;
+import java.nio.charset.StandardCharsets;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+
 /**
  * Класс для объекта - сайт region70.ru
  */
-public class Region70Site {
-    //Часть адреса, для поиска
-    private static String partOfWebAddress = "/Trade/ViewTrade?id=";
-    //Адрес сайта
-    private static String url = "https://region70.rts-tender.ru";
+public class Region70Site extends AbsttractSite {
 
+    // данные для POST запроса, передаваемые в теле.
+    RequestRegion70 requestRegion70;
 
-    //Адрес сайта для запросов
-    private static String requestUrl = "https://zmo-new-webapi.rts-tender.ru/api/Trade/GetTradesForParticipantOrAnonymous";
+    public Region70Site() {
+        url = "https://region70.rts-tender.ru";
+        requestUrl = "https://zmo-new-webapi.rts-tender.ru/api/Trade/GetTradesForParticipantOrAnonymous";
+        httpPost = new HttpPost();
+        httpPost.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0");
+        httpPost.setHeader("Content-Type", "application/json; charset=utf-8");
+        httpPost.setHeader("Host", "zmo-new-webapi.rts-tender.ru");
+        httpPost.setHeader("Accept-Language", "ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3");
+        httpPost.setHeader("Accept-Encoding", "gzip, deflate, br");
+        httpPost.setHeader("XXX-TenantId-Header", "126");
+        httpPost.setHeader("Origin", "https://region70.rts-tender.ru");
+        httpPost.setHeader("DNT", "1");
+        httpPost.setHeader("Accept", "*/*");
+        httpPost.setHeader("Connection", "keep-alive");
+        httpPost.setHeader("Referer", "https://region70.rts-tender.ru/");
 
+        SSLContext sslContext = null;
+        try {
+            sslContext = SSLContexts.custom()
+                    .loadKeyMaterial(readStore(), null) // use null as second param if you don't have a separate key password
+                    .build();
 
-    public static String getUrl() {
-        return url;
+        } catch (KeyManagementException | UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
+            e.printStackTrace();
+        }
+        httpClient = HttpClients.custom().setSSLContext(sslContext).build();
+
+        requestRegion70 = new RequestRegion70();
     }
 
-    public static String getPartOfWebAddress() {
-        return partOfWebAddress;
-    }
-
-
-    public static String getRequestUrl() {
-        return requestUrl;
+    @Override
+   public HttpEntity getHttpEntity(int page, int numberPerPage) {
+        RequestRegion70 requestRegion70 = new RequestRegion70(page, numberPerPage);
+        return new StringEntity(requestRegion70.toString(), StandardCharsets.UTF_8);
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,7 @@ import java.util.Map;
 })
 public class RequestRegion70 {
 
+
     @JsonProperty("page")
     private Integer page;
     @JsonProperty("itemsPerPage")
@@ -68,7 +70,7 @@ public class RequestRegion70 {
     @JsonProperty("UsedClassificatorType")
     private Integer usedClassificatorType;
     @JsonProperty("classificatorCodes")
-    private List<Object> classificatorCodes = null;
+    private List<Object> classificatorCodes = new ArrayList<>();
     @JsonProperty("CustomerFullNameOrInn")
     private String customerFullNameOrInn;
     @JsonProperty("CustomerAddress")
@@ -84,13 +86,33 @@ public class RequestRegion70 {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public String getRequestJSON() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.writerFor(this.getClass()).writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            return null;
-        }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "page=" + page +
+                ", itemsPerPage=" + itemsPerPage +
+                ", tradeState='" + tradeState + '\'' +
+                ", onlyTradesWithMyApplications=" + onlyTradesWithMyApplications +
+                ", filterPriceMin='" + filterPriceMin + '\'' +
+                ", filterPriceMax='" + filterPriceMax + '\'' +
+                ", filterDateFrom=" + filterDateFrom +
+                ", filterDateTo=" + filterDateTo +
+                ", filterFillingApplicationEndDateFrom=" + filterFillingApplicationEndDateFrom +
+                ", filterFillingApplicationEndDateTo=" + filterFillingApplicationEndDateTo +
+                ", filterTradeEasuzNumber='" + filterTradeEasuzNumber + '\'' +
+                ", showOnlyOwnTrades=" + showOnlyOwnTrades +
+                ", isImmediate=" + isImmediate +
+                ", usedClassificatorType=" + usedClassificatorType +
+                ", classificatorCodes=" + classificatorCodes +
+                ", customerFullNameOrInn='" + customerFullNameOrInn + '\'' +
+                ", customerAddress='" + customerAddress + '\'' +
+                ", participantHasApplicationsOnTrade='" + participantHasApplicationsOnTrade + '\'' +
+                ", useCustomerInn=" + useCustomerInn +
+                ", useCustomerName=" + useCustomerName +
+                ", tradeSearchType=" + tradeSearchType +
+                ", additionalProperties=" + additionalProperties +
+                '}';
     }
 
     public String getRequestJSON(int page) {
@@ -105,51 +127,11 @@ public class RequestRegion70 {
 
 
     public RequestRegion70() {
-        page = 1;
-        itemsPerPage = 100;
-        tradeState = "";
-        onlyTradesWithMyApplications = false;
-        filterPriceMin = "";
-        filterPriceMax = "";
-        filterDateFrom = null;
-        filterDateTo = null;
-        filterFillingApplicationEndDateFrom = null;
-        filterFillingApplicationEndDateTo = null;
-        filterTradeEasuzNumber = "";
-        showOnlyOwnTrades = true;
-        isImmediate = false;
-        usedClassificatorType = 5;
-        classificatorCodes = null;
-        customerFullNameOrInn = "";
-        customerAddress = "";
-        participantHasApplicationsOnTrade = "";
-        useCustomerInn = false;
-        useCustomerName = true;
-        tradeSearchType = 50;
+        this(1, 10);
     }
 
     public RequestRegion70(Integer page) {
-        this.page = page;
-        itemsPerPage = 100;
-        tradeState = "";
-        onlyTradesWithMyApplications = false;
-        filterPriceMin = "";
-        filterPriceMax = "";
-        filterDateFrom = null;
-        filterDateTo = null;
-        filterFillingApplicationEndDateFrom = null;
-        filterFillingApplicationEndDateTo = null;
-        filterTradeEasuzNumber = "";
-        showOnlyOwnTrades = true;
-        isImmediate = false;
-        usedClassificatorType = 5;
-        classificatorCodes = null;
-        customerFullNameOrInn = "";
-        customerAddress = "";
-        participantHasApplicationsOnTrade = "";
-        useCustomerInn = false;
-        useCustomerName = true;
-        tradeSearchType = 50;
+        this(page, 10);
     }
 
     public RequestRegion70(Integer page, Integer itemsPerPage) {

@@ -5,7 +5,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Service;
 import ru.bjcreslin.zakupki.DTO.PurchaseRegion70;
-import ru.bjcreslin.zakupki.classes.Region70Site;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -32,6 +31,7 @@ public class Region70UrlService {
         operatorForRecogniseRegion70FieldsMap.put("Дата окончания подачи предложений", this::setDeadLine);
         operatorForRecogniseRegion70FieldsMap.put("Описание", this::setDescription);
         operatorForRecogniseRegion70FieldsMap.put("Плановая дата заключения контракта", this::setContractDate);
+
 
     }
 
@@ -148,8 +148,8 @@ public class Region70UrlService {
     public PurchaseRegion70 getPurchaseFromRegion70(String region70URL) throws IOException {
         Document document = Jsoup.connect(region70URL).get();
         PurchaseRegion70 purchaseRegion70 = new PurchaseRegion70();
-        purchaseRegion70.setSiteId(Long.parseUnsignedLong(region70URL.
-                replace(Region70Site.getUrl()+Region70Site.getPartOfWebAddress(), "")));
+        purchaseRegion70.setSiteId(getPurchaseID(document));
+
         for (Element element : document.getElementsByTag("label")) {
             String key = element.text();
             if (operatorForRecogniseRegion70FieldsMap.containsKey(key)) {
@@ -157,6 +157,21 @@ public class Region70UrlService {
             }
         }
         return purchaseRegion70;
+    }
+
+    /*
+    <h1>
+        Закупка №1362147
+    </h1>
+     */
+    private Long getPurchaseID(Document document) {
+        String wordForFind = "Закупка";
+        for (Element element : document.getElementsByTag("h1")) {
+            if (element.text().startsWith(wordForFind)) {
+                return Long.parseUnsignedLong(element.text().replace(wordForFind, ""));
+            }
+        }
+        return 0L;
     }
 
 
