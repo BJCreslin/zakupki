@@ -1,5 +1,6 @@
-package ru.bjcreslin.zakupki.classes;
+package ru.bjcreslin.zakupki.classes.sites;
 
+import lombok.extern.java.Log;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -17,7 +18,8 @@ import java.security.UnrecoverableKeyException;
 /**
  * Класс для объекта - сайт region70.ru
  */
-public class Region70Site extends AbsttractSite {
+@Log
+public class Region70Site extends AbstractSite {
 
     // данные для POST запроса, передаваемые в теле.
     RequestRegion70 requestRegion70;
@@ -25,7 +27,9 @@ public class Region70Site extends AbsttractSite {
     public Region70Site() {
         url = "https://region70.rts-tender.ru";
         requestUrl = "https://zmo-new-webapi.rts-tender.ru/api/Trade/GetTradesForParticipantOrAnonymous";
-        httpPost = new HttpPost();
+        partOfWebAddress = "/Trade/ViewTrade?id=";
+        httpPost = new HttpPost(requestUrl);
+        httpPost.setEntity(getHttpEntity(1, 10));
         httpPost.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0");
         httpPost.setHeader("Content-Type", "application/json; charset=utf-8");
         httpPost.setHeader("Host", "zmo-new-webapi.rts-tender.ru");
@@ -38,6 +42,7 @@ public class Region70Site extends AbsttractSite {
         httpPost.setHeader("Connection", "keep-alive");
         httpPost.setHeader("Referer", "https://region70.rts-tender.ru/");
 
+
         SSLContext sslContext = null;
         try {
             sslContext = SSLContexts.custom()
@@ -48,13 +53,13 @@ public class Region70Site extends AbsttractSite {
             e.printStackTrace();
         }
         httpClient = HttpClients.custom().setSSLContext(sslContext).build();
-
         requestRegion70 = new RequestRegion70();
     }
 
     @Override
-   public HttpEntity getHttpEntity(int page, int numberPerPage) {
-        RequestRegion70 requestRegion70 = new RequestRegion70(page, numberPerPage);
+    public HttpEntity getHttpEntity(int page, int numberPerPage) {
+        requestRegion70 = new RequestRegion70(page, numberPerPage);
+        log.info(requestRegion70.toString());
         return new StringEntity(requestRegion70.toString(), StandardCharsets.UTF_8);
     }
 }

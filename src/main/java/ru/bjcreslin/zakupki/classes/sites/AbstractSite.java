@@ -1,4 +1,4 @@
-package ru.bjcreslin.zakupki.classes;
+package ru.bjcreslin.zakupki.classes.sites;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.HttpClient;
@@ -11,11 +11,12 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 
-public abstract class AbsttractSite {
+
+public abstract class AbstractSite {
     //Адрес сайта для запросов
     String requestUrl;
     //Часть адреса, для поиска
-    String partOfWebAddress = "/Trade/ViewTrade?id=";
+    String partOfWebAddress;
     //Адрес сайта
     String url;
     //headers для сайта
@@ -26,6 +27,7 @@ public abstract class AbsttractSite {
     HttpEntity httpEntity;
 
     public HttpPost getHttpPost() {
+        httpPost.setEntity(getHttpEntity(1, 10));
         return httpPost;
     }
 
@@ -41,11 +43,21 @@ public abstract class AbsttractSite {
         return requestUrl;
     }
 
+
     public HttpClient getHttpClient() {
         return httpClient;
     }
 
+    /**
+     * Делает HttpEntity
+     * для каждого класса сайта свой
+     *
+     * @param page        текущая траница
+     * @param pagePerPage -количество торговых процедур на страницу
+     * @return HttpEntity
+     */
     public abstract HttpEntity getHttpEntity(int page, int pagePerPage);
+
 
     /**
      * Метод для "общения" по https

@@ -1,10 +1,7 @@
 package ru.bjcreslin.zakupki.DTO;
 
 import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,7 +67,7 @@ public class RequestRegion70 {
     @JsonProperty("UsedClassificatorType")
     private Integer usedClassificatorType;
     @JsonProperty("classificatorCodes")
-    private List<Object> classificatorCodes = new ArrayList<>();
+    private List<Object> classificatorCodes;
     @JsonProperty("CustomerFullNameOrInn")
     private String customerFullNameOrInn;
     @JsonProperty("CustomerAddress")
@@ -84,10 +81,8 @@ public class RequestRegion70 {
     @JsonProperty("TradeSearchType")
     private Integer tradeSearchType;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
-
-    @Override
     public String toString() {
         return "{" +
                 "page=" + page +
@@ -115,19 +110,8 @@ public class RequestRegion70 {
                 '}';
     }
 
-    public String getRequestJSON(int page) {
-        this.page = page;
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.writerFor(this.getClass()).writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            return null;
-        }
-    }
-
-
     public RequestRegion70() {
-        this(1, 10);
+        this(1);
     }
 
     public RequestRegion70(Integer page) {
@@ -181,11 +165,6 @@ public class RequestRegion70 {
             "UseCustomerName":true,
             "TradeSearchType":50}
              */
-    public String getNewJson(int pageNumber) throws JsonProcessingException {
-        this.page = pageNumber;
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.writer().writeValueAsString(this);
-    }
 
     @JsonProperty("page")
     public Integer getPage() {

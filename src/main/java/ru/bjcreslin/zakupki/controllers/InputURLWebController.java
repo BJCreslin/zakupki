@@ -2,6 +2,7 @@ package ru.bjcreslin.zakupki.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.java.Log;
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -12,9 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.bjcreslin.zakupki.DTO.PurchaseRegion70;
-import ru.bjcreslin.zakupki.classes.AbsttractSite;
 import ru.bjcreslin.zakupki.classes.DataJSONFromServer;
-import ru.bjcreslin.zakupki.classes.Region70Site;
+import ru.bjcreslin.zakupki.classes.sites.AbstractSite;
+import ru.bjcreslin.zakupki.classes.sites.Region70Site;
 import ru.bjcreslin.zakupki.repositories.PurchaseRegion70Repo;
 import ru.bjcreslin.zakupki.services.Purchaseregion70ToDBaseService;
 import ru.bjcreslin.zakupki.services.Region70UrlService;
@@ -35,7 +36,7 @@ public class InputURLWebController {
     final
     Purchaseregion70ToDBaseService purchaseregion70ToDBaseService;
     //Сайт с данными
-    AbsttractSite siteWithDate;
+    AbstractSite siteWithDate;
 
 
     public InputURLWebController(Region70UrlService region70UrlService, PurchaseRegion70Repo purchaseRegion70repo, Purchaseregion70ToDBaseService purchaseregion70ToDBaseService) {
@@ -73,8 +74,18 @@ public class InputURLWebController {
         //Пока один сайт выставляем его жёстко
         siteWithDate = new Region70Site();
         HttpClient httpClient = siteWithDate.getHttpClient();
+
+
         HttpPost httpPost = siteWithDate.getHttpPost();
-        httpPost.setEntity(siteWithDate.getHttpEntity(1, 10));
+
+        for (Header header : httpPost.getAllHeaders()) {
+            log.info("Header: " + header.getName() + ": " + header.getValue());
+        }
+        try {
+            log.info("Entity: " + EntityUtils.toString(httpPost.getEntity()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         try {
             HttpResponse response = httpClient.execute(httpPost);
@@ -84,6 +95,10 @@ public class InputURLWebController {
             for (int i = 0; i < dataJSONFromServer.invdata.size(); i++) {
                 System.out.println(dataJSONFromServer.invdata.get(i).toString());
             }
+            for (Header header : response.getAllHeaders()) {
+                log.info("Header " + header.getName() + ": " + header.getValue());
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
