@@ -2,6 +2,7 @@ package ru.bjcreslin.zakupki.classes.sites;
 
 import lombok.extern.java.Log;
 import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.HttpOptions;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
@@ -24,6 +25,22 @@ public class Region70Site extends AbstractSite {
     // данные для POST запроса, передаваемые в теле.
     RequestRegion70 requestRegion70;
 
+    // Httpoptions доступ
+    private HttpOptions httpOptions;
+
+    //headers для сайта
+    private HttpPost httpPost;
+
+    @Override
+    public HttpPost getHttpPost() {
+        httpPost.setEntity(getHttpEntity(1, 10));
+        return httpPost;
+    }
+
+    public HttpOptions getHttpOptions() {
+        return httpOptions;
+    }
+
     public Region70Site() {
         url = "https://region70.rts-tender.ru";
         requestUrl = "https://zmo-new-webapi.rts-tender.ru/api/Trade/GetTradesForParticipantOrAnonymous";
@@ -42,7 +59,29 @@ public class Region70Site extends AbstractSite {
         httpPost.setHeader("Connection", "keep-alive");
         httpPost.setHeader("Referer", "https://region70.rts-tender.ru/");
 
-
+        httpOptions = new HttpOptions(requestUrl);
+         /*    User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0
+        Accept: *"/*
+    Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3
+    Accept-Encoding: gzip, deflate, br
+    Access-Control-Request-Method: POST
+    Access-Control-Request-Headers: content-type,xxx-tenantid-header
+    Referer: https://region70.rts-tender.ru/
+    Origin: https://region70.rts-tender.ru
+    DNT: 1
+    Connection: keep-alive
+        */
+        httpOptions.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0");
+        httpOptions.setHeader("Host", "zmo-new-webapi.rts-tender.ru");
+        httpOptions.setHeader("Accept", "*/*");
+        httpOptions.setHeader("Accept-Language", "ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3");
+        httpOptions.setHeader("Accept-Encoding", "gzip, deflate, br");
+        httpOptions.setHeader("Access-Control-Request-Method", "POST");
+        httpOptions.setHeader("Access-Control-Request-Headers", "content-type,xxx-tenantid-header");
+        httpOptions.setHeader("Referer", "https://region70.rts-tender.ru/");
+        httpOptions.setHeader("Origin", "https://region70.rts-tender.ru");
+        httpOptions.setHeader("DNT", "1");
+        httpOptions.setHeader("Connection", "keep-alive");
         SSLContext sslContext = null;
         try {
             sslContext = SSLContexts.custom()
@@ -56,10 +95,10 @@ public class Region70Site extends AbstractSite {
         requestRegion70 = new RequestRegion70();
     }
 
+
     @Override
     public HttpEntity getHttpEntity(int page, int numberPerPage) {
         requestRegion70 = new RequestRegion70(page, numberPerPage);
-        log.info(requestRegion70.toString());
         return new StringEntity(requestRegion70.toString(), StandardCharsets.UTF_8);
     }
 }

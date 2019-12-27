@@ -5,6 +5,7 @@ import lombok.extern.java.Log;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpOptions;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Controller;
@@ -15,16 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.bjcreslin.zakupki.DTO.PurchaseRegion70;
 import ru.bjcreslin.zakupki.classes.DataJSONFromServer;
 import ru.bjcreslin.zakupki.classes.sites.AbstractSite;
-import ru.bjcreslin.zakupki.classes.sites.Region70OptionsRequest;
 import ru.bjcreslin.zakupki.classes.sites.Region70Site;
 import ru.bjcreslin.zakupki.repositories.PurchaseRegion70Repo;
 import ru.bjcreslin.zakupki.services.Purchaseregion70ToDBaseService;
 import ru.bjcreslin.zakupki.services.Region70UrlService;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 
 
 @Log
@@ -75,10 +72,11 @@ public class InputURLWebController {
         siteWithDate = new Region70Site();
         HttpClient httpClient = siteWithDate.getHttpClient();
         HttpPost httpPost = siteWithDate.getHttpPost();
+        HttpOptions httpOptions = siteWithDate.getHttpOptions();
         logRequest(httpPost);
 
         try {
-            getOptions();
+            dotOptions(httpClient,httpOptions);
             doResponse(httpClient, httpPost);
         } catch (IOException e) {
             e.printStackTrace();
@@ -90,10 +88,10 @@ public class InputURLWebController {
     /**
      * выполнение Options запроса
      */
-    private void getOptions() {
-        Region70OptionsRequest region70OptionsRequest = new Region70OptionsRequest();
+    private void dotOptions(HttpClient httpClient, HttpOptions httpOptions) {
+
         try {
-            HttpResponse response = region70OptionsRequest.getHttpClient().execute(region70OptionsRequest.getHttpOptions());
+            HttpResponse response = httpClient.execute(httpOptions);
         } catch (IOException e) {
             e.printStackTrace();
         }

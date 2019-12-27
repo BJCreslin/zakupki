@@ -2,6 +2,7 @@ package ru.bjcreslin.zakupki.classes.sites;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpOptions;
 import org.apache.http.client.methods.HttpPost;
 
 import java.io.IOException;
@@ -19,16 +20,14 @@ public abstract class AbstractSite {
     String partOfWebAddress;
     //Адрес сайта
     String url;
-    //headers для сайта
-    HttpPost httpPost;
+
     //httpClient
     HttpClient httpClient;
 
+    abstract public HttpPost getHttpPost();
 
-    public HttpPost getHttpPost() {
-        httpPost.setEntity(getHttpEntity(1, 10));
-        return httpPost;
-    }
+    abstract public HttpOptions getHttpOptions();
+
 
     public String getUrl() {
         return url;
