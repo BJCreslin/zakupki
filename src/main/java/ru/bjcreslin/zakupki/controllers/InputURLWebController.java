@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.bjcreslin.zakupki.DTO.PurchaseRegion70;
 import ru.bjcreslin.zakupki.classes.DataJSONFromServer;
 import ru.bjcreslin.zakupki.classes.sites.AbstractSite;
+import ru.bjcreslin.zakupki.classes.sites.Region70OptionsRequest;
 import ru.bjcreslin.zakupki.classes.sites.Region70Site;
 import ru.bjcreslin.zakupki.repositories.PurchaseRegion70Repo;
 import ru.bjcreslin.zakupki.services.Purchaseregion70ToDBaseService;
@@ -75,13 +76,29 @@ public class InputURLWebController {
         HttpClient httpClient = siteWithDate.getHttpClient();
         HttpPost httpPost = siteWithDate.getHttpPost();
         logRequest(httpPost);
+
         try {
+            getOptions();
             doResponse(httpClient, httpPost);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return "index";
     }
+
+
+    /**
+     * выполнение Options запроса
+     */
+    private void getOptions() {
+        Region70OptionsRequest region70OptionsRequest = new Region70OptionsRequest();
+        try {
+            HttpResponse response = region70OptionsRequest.getHttpClient().execute(region70OptionsRequest.getHttpOptions());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * Выполнение запроса
@@ -107,7 +124,7 @@ public class InputURLWebController {
      * @param dataJSONFromServer DataJSONFromServer
      */
     private void logAnswer(HttpResponse response, DataJSONFromServer dataJSONFromServer) {
-        log.info("Всего данных на сервере: "+dataJSONFromServer.totalrecords+", всего на "+dataJSONFromServer.totalpages+ " страниц.");
+        log.info("Всего данных на сервере: " + dataJSONFromServer.totalrecords + ", всего на " + dataJSONFromServer.totalpages + " страниц.");
         for (int i = 0; i < dataJSONFromServer.invdata.size(); i++) {
             log.info("Answer Purchase " + dataJSONFromServer.invdata.get(i).toString());
         }
