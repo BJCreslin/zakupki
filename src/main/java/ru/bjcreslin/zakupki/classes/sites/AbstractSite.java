@@ -20,7 +20,6 @@ public abstract class AbstractSite {
     String partOfWebAddress;
     //Адрес сайта
     String url;
-
     //httpClient
     HttpClient httpClient;
 
@@ -38,7 +37,7 @@ public abstract class AbstractSite {
     }
 
     /**
-     * Делает HttpEntity
+     * Делает HttpEntity сущность
      * для каждого класса сайта свой
      *
      * @param page        текущая траница
@@ -48,11 +47,12 @@ public abstract class AbstractSite {
     public abstract HttpEntity getHttpEntity(int page, int pagePerPage);
 
 
+
+    private static final String KEYSTOREPATH = "/clientkeystore.jks"; // or "PKCS12"
+
     /**
      * Метод для "общения" по https
      */
-    private static final String KEYSTOREPATH = "/clientkeystore.jks"; // or .p12
-
     KeyStore readStore() {
         InputStream keyStoreStream = this.getClass().getResourceAsStream(KEYSTOREPATH);
         KeyStore keyStore = null; // or "PKCS12"
@@ -62,7 +62,9 @@ public abstract class AbstractSite {
             e.printStackTrace();
         }
         try {
-            keyStore.load(keyStoreStream, null);
+            if (keyStore != null) {
+                keyStore.load(keyStoreStream, null);
+            }
         } catch (IOException | NoSuchAlgorithmException | CertificateException e) {
             e.printStackTrace();
         }

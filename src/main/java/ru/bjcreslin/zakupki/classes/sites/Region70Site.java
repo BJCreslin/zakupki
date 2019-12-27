@@ -8,6 +8,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import ru.bjcreslin.zakupki.DTO.RequestRegion70;
+import ru.bjcreslin.zakupki.classes.exceptions.CreateNewRegion70SiteObjectException;
 
 import javax.net.ssl.SSLContext;
 import java.nio.charset.StandardCharsets;
@@ -28,7 +29,7 @@ public class Region70Site extends AbstractSite {
     // Httpoptions доступ
     private HttpOptions httpOptions;
 
-    //headers для сайта
+    //headers для Post запроса к сайту
     private HttpPost httpPost;
 
     @Override
@@ -41,7 +42,7 @@ public class Region70Site extends AbstractSite {
         return httpOptions;
     }
 
-    public Region70Site() {
+    public Region70Site() throws CreateNewRegion70SiteObjectException {
         url = "https://region70.rts-tender.ru";
         requestUrl = "https://zmo-new-webapi.rts-tender.ru/api/Trade/GetTradesForParticipantOrAnonymous";
         partOfWebAddress = "/Trade/ViewTrade?id=";
@@ -60,17 +61,6 @@ public class Region70Site extends AbstractSite {
         httpPost.setHeader("Referer", "https://region70.rts-tender.ru/");
 
         httpOptions = new HttpOptions(requestUrl);
-         /*    User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0
-        Accept: *"/*
-    Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3
-    Accept-Encoding: gzip, deflate, br
-    Access-Control-Request-Method: POST
-    Access-Control-Request-Headers: content-type,xxx-tenantid-header
-    Referer: https://region70.rts-tender.ru/
-    Origin: https://region70.rts-tender.ru
-    DNT: 1
-    Connection: keep-alive
-        */
         httpOptions.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0");
         httpOptions.setHeader("Host", "zmo-new-webapi.rts-tender.ru");
         httpOptions.setHeader("Accept", "*/*");
@@ -82,14 +72,15 @@ public class Region70Site extends AbstractSite {
         httpOptions.setHeader("Origin", "https://region70.rts-tender.ru");
         httpOptions.setHeader("DNT", "1");
         httpOptions.setHeader("Connection", "keep-alive");
-        SSLContext sslContext = null;
+        SSLContext sslContext;
         try {
             sslContext = SSLContexts.custom()
                     .loadKeyMaterial(readStore(), null) // use null as second param if you don't have a separate key password
                     .build();
 
         } catch (KeyManagementException | UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
-            e.printStackTrace();
+            log.severe("Не удалось создать объект Region70Site. Ошибка в создании SslContext");
+            throw new CreateNewRegion70SiteObjectException();
         }
         httpClient = HttpClients.custom().setSSLContext(sslContext).build();
         requestRegion70 = new RequestRegion70();

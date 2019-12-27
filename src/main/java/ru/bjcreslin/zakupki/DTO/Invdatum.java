@@ -1,10 +1,12 @@
-package ru.bjcreslin.zakupki.classes;
+package ru.bjcreslin.zakupki.DTO;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -35,56 +37,58 @@ import java.util.Map;
         "CountApplications",
         "IsHideApplicationData"
 })
+@Getter
+@Setter
 public class Invdatum {
 
     @JsonProperty("TradeState")
-    public Integer tradeState;
+    private Integer tradeState;
     @JsonProperty("TradeStateName")
-    public String tradeStateName;
+    private String tradeStateName;
     @JsonProperty("CustomerFullName")
-    public String customerFullName;
+    private String customerFullName;
     @JsonProperty("CustomerId")
-    public Integer customerId;
+    private Integer customerId;
     @JsonProperty("TradeName")
-    public String tradeName;
+    private String tradeName;
     @JsonProperty("Id")
-    public Integer id;
+    private Integer id;
     @JsonProperty("TradeNumber")
-    public String tradeNumber;
+    private String tradeNumber;
     @JsonProperty("LotNumber")
-    public Integer lotNumber;
+    private Integer lotNumber;
     @JsonProperty("InitialPrice")
-    public Double initialPrice;
+    private Double initialPrice;
     @JsonProperty("IsInitialPriceDefined")
-    public Boolean isInitialPriceDefined;
+    private Boolean isInitialPriceDefined;
     @JsonProperty("FillingApplicationEndDate")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
-    public LocalDateTime fillingApplicationEndDate;
+    private LocalDateTime fillingApplicationEndDate;
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonProperty("PublicationDate")
-    public LocalDateTime publicationDate;
+    @JsonProperty("publicationDate")
+    private LocalDateTime publicationDate;
     @JsonProperty("HasApplications")
-    public Boolean hasApplications;
+    private Boolean hasApplications;
     @JsonProperty("IsImmediate")
-    public Boolean isImmediate;
+    private Boolean isImmediate;
     @JsonProperty("ParticipantHasApplicationsOnTrade")
-    public Boolean participantHasApplicationsOnTrade;
+    private Boolean participantHasApplicationsOnTrade;
     @JsonProperty("HasDealSignedOutsideEShop")
-    public Boolean hasDealSignedOutsideEShop;
+    private Boolean hasDealSignedOutsideEShop;
     @JsonProperty("LastModificationDate")
-    public Object lastModificationDate;
+    private Object lastModificationDate;
     @JsonProperty("TradeLotState")
-    public Integer tradeLotState;
-    @JsonProperty("PublicApplications")
-    public Object publicApplications;
-    @JsonProperty("IsPublicApplicationsEnabled")
-    public Boolean isPublicApplicationsEnabled;
+    private Integer tradeLotState;
+    @JsonProperty("publicApplications")
+    private Object publicApplications;
+    @JsonProperty("isPublicApplicationsEnabled")
+    private Boolean isPublicApplicationsEnabled;
     @JsonProperty("CountApplications")
-    public Integer countApplications;
+    private Integer countApplications;
     @JsonProperty("IsHideApplicationData")
-    public Boolean isHideApplicationData;
+    private Boolean isHideApplicationData;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<>();
 

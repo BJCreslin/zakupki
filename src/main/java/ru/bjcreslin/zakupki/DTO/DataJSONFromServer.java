@@ -1,4 +1,4 @@
-package ru.bjcreslin.zakupki.classes;
+package ru.bjcreslin.zakupki.DTO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -27,7 +27,7 @@ public class DataJSONFromServer {
     @JsonProperty("invdata")
     public List<Invdatum> invdata = null;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     @Override
     public String toString() {

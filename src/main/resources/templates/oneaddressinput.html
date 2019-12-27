@@ -8,14 +8,21 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-<!--    <div th:replace="fragments/header :: header-css"></div>-->
+    <!--    <div th:replace="fragments/header :: header-css"></div>-->
 </head>
 <body>
 <div th:replace="fragments/menu.html ::menu"></div>
 <div class="MainText">
-
-
-</div>
+    <h1>Ввод закупок по одному адресу</h1>
+    <form action="addurl" method="POST">
+        Input address:
+        <label>
+            <input type="text" class="text input-group-lg" name="url" placeholder="Введите адрес">
+        </label>
+        <input type="submit" value="Create" class="btn-light">
+    </form>
+    <br>
+   </div>
 <div th:replace="fragments/footer :: footer"/>
 </body>
 </html>

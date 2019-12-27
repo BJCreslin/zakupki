@@ -1,8 +1,9 @@
 .MainText {
-    padding-top: 50px;
-    padding-left: 50px;
-    color: #0c5460;
-    background-color: #6c757d;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    /*color: #0c5460;*/
+    /*background-color: #6c757d;*/
 }
 
 input[type=text] {
@@ -11,13 +12,17 @@ input[type=text] {
 
 .footer-copyright {
     height: 40px;
-    margin-top: 200px;
+    margin-top: 20px;
     outline: 1px solid #00FF00;
-    background-color: #818181;
+
     /*Прижимаем футер книзу страницы окна браузера*/
     position: absolute;
     bottom: 0;
     width: 100%;
     left: 0;
+}
+
+.table-border {
+    table-border-color-dark: #1d2124;
 }
 

@@ -13,8 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.bjcreslin.zakupki.DTO.DataJSONFromServer;
 import ru.bjcreslin.zakupki.DTO.PurchaseRegion70;
-import ru.bjcreslin.zakupki.classes.DataJSONFromServer;
+import ru.bjcreslin.zakupki.classes.exceptions.CreateNewRegion70SiteObjectException;
 import ru.bjcreslin.zakupki.classes.sites.AbstractSite;
 import ru.bjcreslin.zakupki.classes.sites.Region70Site;
 import ru.bjcreslin.zakupki.repositories.PurchaseRegion70Repo;
@@ -49,6 +50,11 @@ public class InputURLWebController {
         return "index";
     }
 
+    @GetMapping("/addurlpage")
+    String addurlpage() {
+        return "oneaddressinput";
+    }
+
     @PostMapping("/addurl")
     String addURL(@RequestParam(name = "url", required = false, defaultValue = "")
                           String nameURL, Model model) {
@@ -67,21 +73,28 @@ public class InputURLWebController {
     }
 
     @GetMapping("/testerone")
-    String testerone() {
+    String testerone(Model model) {
         //Пока один сайт выставляем его жёстко
-        siteWithDate = new Region70Site();
+        try {
+            siteWithDate = new Region70Site();
+        } catch (CreateNewRegion70SiteObjectException e) {
+            return "index";
+        }
         HttpClient httpClient = siteWithDate.getHttpClient();
         HttpPost httpPost = siteWithDate.getHttpPost();
         HttpOptions httpOptions = siteWithDate.getHttpOptions();
         logRequest(httpPost);
 
         try {
-            dotOptions(httpClient,httpOptions);
-            doResponse(httpClient, httpPost);
+            dotOptions(httpClient, httpOptions);
+            DataJSONFromServer dataJSONFromServer = doResponse(httpClient, httpPost);
+            if (dataJSONFromServer.invdata.size() > 0) {
+                model.addAttribute("purchaseslist", dataJSONFromServer.invdata);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "index";
+        return "resulttable";
     }
 
 
@@ -91,7 +104,7 @@ public class InputURLWebController {
     private void dotOptions(HttpClient httpClient, HttpOptions httpOptions) {
 
         try {
-            HttpResponse response = httpClient.execute(httpOptions);
+            httpClient.execute(httpOptions);
         } catch (IOException e) {
             e.printStackTrace();
         }
