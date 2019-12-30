@@ -14,9 +14,15 @@
 <div th:replace="fragments/menu.html ::menu"></div>
 <div class="MainText">
 
-    <form action="testerone" method="get">
-        <input type="submit" class="btn-outline-primary" value="Запрос">
-    </form>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" th:href="@{/getprevpage}">Previous</a></li>
+            <li class="page-item"><a class="page-link" th:href="@{/testerone}">Первая страница</a></li>
+            <li class="page-item"><a class="page-link" th:href="@{/getnextpage}">Next</a></li>
+        </ul>
+    </nav>
+
+
     <hr class="flex-shrink-0">
 
     <table class="table-bordered table-active table-border">

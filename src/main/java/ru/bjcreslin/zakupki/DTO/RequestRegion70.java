@@ -115,7 +115,7 @@ public class RequestRegion70 {
     }
 
     public RequestRegion70(Integer page) {
-        this(page, 10);
+        this(page, 100);
     }
 
     public RequestRegion70(Integer page, Integer itemsPerPage) {

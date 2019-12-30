@@ -34,7 +34,7 @@ public class Region70Site extends AbstractSite {
 
     @Override
     public HttpPost getHttpPost() {
-        httpPost.setEntity(getHttpEntity(1, 10));
+        httpPost.setEntity(getHttpEntity(currentPage, purchasesOnPage));
         return httpPost;
     }
 
@@ -43,6 +43,8 @@ public class Region70Site extends AbstractSite {
     }
 
     public Region70Site() throws CreateNewRegion70SiteObjectException {
+        currentPage=1;
+        purchasesOnPage=10;
         url = "https://region70.rts-tender.ru";
         requestUrl = "https://zmo-new-webapi.rts-tender.ru/api/Trade/GetTradesForParticipantOrAnonymous";
         partOfWebAddress = "/Trade/ViewTrade?id=";

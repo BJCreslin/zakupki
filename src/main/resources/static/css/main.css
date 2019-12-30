@@ -13,7 +13,7 @@ input[type=text] {
 .footer-copyright {
     height: 40px;
     margin-top: 20px;
-    /*outline: 1px solid #00FF00;*/
+    outline: 1px solid white;
 
     /*Прижимаем футер книзу страницы окна браузера*/
     position: absolute;
@@ -24,5 +24,8 @@ input[type=text] {
 
 .table-border {
     table-border-color-dark: #1d2124;
+}
+.btn-pagination{
+
 }
 

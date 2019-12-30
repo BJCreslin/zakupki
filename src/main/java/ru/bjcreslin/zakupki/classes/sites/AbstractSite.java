@@ -14,6 +14,7 @@ import java.security.cert.CertificateException;
 
 
 public abstract class AbstractSite {
+
     //Адрес сайта для запросов
     String requestUrl;
     //Часть адреса, для поиска
@@ -22,6 +23,21 @@ public abstract class AbstractSite {
     String url;
     //httpClient
     HttpClient httpClient;
+    // текущая страница
+    Integer currentPage;
+    //всего закупок на странице
+    Integer purchasesOnPage;
+
+    public Integer getMaxPages() {
+        return maxPages;
+    }
+
+    public void setMaxPages(Integer maxPages) {
+        this.maxPages = maxPages;
+    }
+
+    //максимальное количество страниц
+    Integer maxPages;
 
     abstract public HttpPost getHttpPost();
 
@@ -47,7 +63,6 @@ public abstract class AbstractSite {
     public abstract HttpEntity getHttpEntity(int page, int pagePerPage);
 
 
-
     private static final String KEYSTOREPATH = "/clientkeystore.jks"; // or "PKCS12"
 
     /**
@@ -71,4 +86,26 @@ public abstract class AbstractSite {
         return keyStore;
     }
 
+    /**
+     * Увеличиваем номер просматриваемой страницы, если возможно
+     */
+    public void nextPage() {
+        if (currentPage >= maxPages) {
+            currentPage = maxPages;
+            return;
+        }
+        currentPage++;
+
+    }
+
+    /**
+     * Уменьшаем номер просматриваемой страницы, если возможно
+     */
+    public void prevPage() {
+        if (currentPage <= 1) {
+            currentPage = maxPages;
+            return;
+        }
+        currentPage++;
+    }
 }

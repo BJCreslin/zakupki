@@ -72,6 +72,29 @@ public class InputURLWebController {
         return "index";
     }
 
+    @GetMapping("/getnextpage")
+    String getnextpage(Model model) {
+        if (siteWithDate == null) {
+            testerone(model);
+        } else {
+            siteWithDate.nextPage();
+            getSite(model);
+        }
+        return "resulttable";
+    }
+
+    @GetMapping("/getprevpage")
+    String getprevpage(Model model) {
+        if (siteWithDate == null) {
+            testerone(model);
+        } else {
+            siteWithDate.prevPage();
+            getSite(model);
+        }
+        return "resulttable";
+    }
+
+
     @GetMapping("/testerone")
     String testerone(Model model) {
         //Пока один сайт выставляем его жёстко
@@ -80,6 +103,11 @@ public class InputURLWebController {
         } catch (CreateNewRegion70SiteObjectException e) {
             return "index";
         }
+        getSite(model);
+        return "resulttable";
+    }
+
+    private void getSite(Model model) {
         HttpClient httpClient = siteWithDate.getHttpClient();
         HttpPost httpPost = siteWithDate.getHttpPost();
         HttpOptions httpOptions = siteWithDate.getHttpOptions();
@@ -89,12 +117,12 @@ public class InputURLWebController {
             dotOptions(httpClient, httpOptions);
             DataJSONFromServer dataJSONFromServer = doResponse(httpClient, httpPost);
             if (dataJSONFromServer.invdata.size() > 0) {
+                siteWithDate.setMaxPages(dataJSONFromServer.totalpages);
                 model.addAttribute("purchaseslist", dataJSONFromServer.invdata);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "resulttable";
     }
 
 
