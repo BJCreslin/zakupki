@@ -25,6 +25,11 @@ public abstract class AbstractSite {
     HttpClient httpClient;
     // текущая страница
     Integer currentPage;
+
+    public void setPurchasesOnPage(Integer purchasesOnPage) {
+        this.purchasesOnPage = purchasesOnPage;
+    }
+
     //всего закупок на странице
     Integer purchasesOnPage;
 

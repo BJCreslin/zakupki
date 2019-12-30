@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.extern.java.Log;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.Map;
         "totalrecords",
         "invdata"
 })
+@Log
 public class DataJSONFromServer {
 
     @JsonProperty("totalpages")
@@ -38,6 +40,14 @@ public class DataJSONFromServer {
                 ", invdata=" + invdata +
                 ", additionalProperties=" + additionalProperties +
                 '}';
+    }
+
+    public void logObject() {
+        log.info("Всего данных на сервере: " + this.totalrecords + ", всего на " + this.totalpages + " страниц. Текущая страница: " + this.currpage + " .");
+        for (int i = 0; i < this.invdata.size(); i++) {
+            log.info("Answer Purchase " + this.invdata.get(i).toString());
+        }
+
     }
 }
 
